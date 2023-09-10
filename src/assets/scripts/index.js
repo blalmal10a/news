@@ -58,19 +58,44 @@ function processImage(newsContent) {
 		windowWidth: newsContent.scrollWidth,
 		windowHeight: document.documentElement.offsetHeight,
 	}).then(function (canvas) {
-		var img = canvas.toDataURL() //get data URL of the image
-
-		// html2canvas(document.body).then(function (canvas) {
-
+		// var img = canvas.toDataURL()
 		var image = canvas
 			.toDataURL("image/png")
 			.replace("image/png", "image/octet-stream")
 
-		var link = document.createElement("a")
-		link.href = image
-		link.download = "my-image.png"
-		link.click()
+		shareImage(image)
+		// downloadImage(image)
 	})
+}
+
+function shareImage(imageData) {
+	// Check if the Web Share API is available in the browser
+	if (navigator.share) {
+		// Create an object containing the image data and type
+		const shareData = {
+			files: [new File([imageData], "news_image.png", {type: "image/png"})],
+		}
+
+		// Use the Web Share API to share the image
+		navigator
+			.share(shareData)
+			.then(() => {
+				console.log("Image shared successfully")
+			})
+			.catch((error) => {
+				console.error("Error sharing image:", error)
+			})
+	} else {
+		console.log("Web Share API is not available in this browser.")
+		// You can provide a fallback method or message here for browsers that do not support Web Share API.
+	}
+}
+
+async function downloadImage(image) {
+	var link = document.createElement("a")
+	link.href = image
+	link.download = "my-image.png"
+	link.click()
 }
 
 async function openInNewWindow() {

@@ -65,20 +65,40 @@
 					x-model="selected_image"
 				/>
 			</span>
-			<span>
+
+			<span style="white-space: nowrap">
 				<button
 					style="
+						display: inline;
 						background: rgb(66, 184, 221);
 						border: 3px solid rgb(66, 184, 221);
-						padding: 8px;
+						color: white;
+						padding: 3px;
 						border-radius: 8px;
 						filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
 						margin-top: 20px;
-						width: 200px;
+						width: 140px;
 					"
 					@click="generateNews"
 				>
-					GENERATE IMAGE
+					Download
+				</button>
+				&nbsp;
+				<button
+					style="
+						display: inline;
+						background: lightseagreen;
+						border: 3px solid lightseagreen;
+						color: white;
+						padding: 3px;
+						border-radius: 8px;
+						filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
+						margin-top: 20px;
+						width: 140px;
+					"
+					@click="generateNews"
+				>
+					Share
 				</button>
 			</span>
 		</div>
