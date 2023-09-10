@@ -66,21 +66,15 @@ async function downloadImage(image, filename) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	const loader_section = document.getElementById("loader-section")
-	setTimeout(() => {
-		// loader_section.classList.add("fade-out")
-		// console.log("fade out done")
-	}, 1000)
-
 	updateImageContainerSize()
 	let checkCounter = 0
 	let isRemoved = false
 	let interval = setInterval(() => {
-		if (checkCounter++ > 10 || isRemoved) {
+		if (checkCounter++ > 100 || isRemoved) {
 			clearInterval(interval)
 		}
 		isRemoved = checkBanner()
-	}, 5)
+	}, 50)
 })
 
 function updateImageContainerSize() {
