@@ -21,9 +21,9 @@ async function generateNews(filename) {
 
 function processImage(newsContent, filename) {
 	html2canvas(newsContent, {
-		scrollX: -1700,
+		scrollY: -window.scrollX,
 		scrollY: -window.scrollY,
-		windowWidth: newsContent.scrollWidth,
+		windowWidth: 1920,
 		windowHeight: document.documentElement.offsetHeight,
 	}).then(function (canvas) {
 		// var img = canvas.toDataURL()
