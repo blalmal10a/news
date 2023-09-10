@@ -27,25 +27,43 @@ function processImage(newsContent, filename) {
 		windowHeight: document.documentElement.offsetHeight,
 	}).then(function (canvas) {
 		// var img = canvas.toDataURL()
-		var image = canvas
-			.toDataURL("image/png")
-			.replace("image/png", "image/octet-stream")
-		if (filename) downloadImage(image, filename)
-		else shareImage(image)
+		var image = canvas.toDataURL("image/png")
+
+		if (filename) {
+			image.replace("image/png", "image/octet-stream")
+			downloadImage(image, filename)
+		} else shareImage(image)
 	})
 }
 
 function shareImage(imageData) {
+	// shareOrDownload(blob, 'cat.png', 'Cat in the snow', 'Getting cold feet…');
+	// blob, fileName, title, text
+
+	const data = {
+		files: [
+			new File([imageData], "fake-news.png", {
+				type: "image/png",
+			}),
+		],
+		title: "NEWS",
+		text: "",
+	}
 	// Check if the Web Share API is available in the browser
 	if (navigator.share) {
 		// Create an object containing the image data and type
-		const shareData = {
-			files: [new File([imageData], "news_image.png", {type: "image/png"})],
-		}
+		// const shareData = {
+		// 	files: [
+		// 		new File([imageData], "news_image.png", {
+		// 			// type: "blob",
+		// 			type: "image/png",
+		// 		}),
+		// 	],
+		// }
 
 		// Use the Web Share API to share the image
 		navigator
-			.share(shareData)
+			.share(data)
 			.then(() => {
 				console.log("Image shared successfully")
 			})
