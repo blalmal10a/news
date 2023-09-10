@@ -1,0 +1,65 @@
+.image-container {
+	position: relative;
+	background-image: url(src/assets/images/theme-1-template.png);
+	width: 1700px;
+	background-size: contain;
+	aspect-ratio: 16/9;
+
+	// height: 1080px;
+	// width: 1920px;
+}
+
+.inner-image {
+	position: absolute;
+
+	height: 645px;
+	top: 140px;
+	left: 290px;
+	aspect-ratio: 16/9;
+}
+
+#top-banner {
+	position: absolute;
+	color: white;
+	top: 45px;
+	left: 280px;
+	font-size: 36px;
+	font-weight: 700;
+	white-space: nowrap;
+}
+
+#news-header {
+	position: absolute;
+	top: 790px;
+	left: 380px;
+	font-size: 27px;
+	font-weight: 800;
+	color: black;
+	white-space: nowrap;
+}
+
+#bottom-left {
+	position: absolute;
+	color: white;
+	top: 845px;
+	left: 380px;
+	font-size: 17px;
+	font-weight: 500;
+}
+
+#bottom-right {
+	position: absolute;
+	color: white;
+	top: 845px;
+	left: 1250px;
+	font-size: 17px;
+	font-weight: 500;
+}
+
+button:active {
+	transform: translateY(1px);
+}
+
+button:disabled:active {
+	transform: translate(0px);
+}
