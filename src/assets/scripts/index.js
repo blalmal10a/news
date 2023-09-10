@@ -2,56 +2,24 @@ function convertDate(date) {
 	return date.toLocaleDateString("de-DE").replace(/\//g, ".")
 }
 
-// function convertToImage(divId) {
-// 	// Get the div element by its ID.
-// 	var div = document.getElementById(divId)
-
-// 	// Create a canvas element.
-// 	var canvas = document.createElement("canvas")
-// 	console.log("canvas is: ", canvas)
-// 	console.log("div is: ", div)
-
-// 	// Set the canvas's width and height to the same as the div element's.
-// 	canvas.width = div.offsetWidth
-// 	canvas.height = div.offsetHeight
-
-// 	// Create a 2D context for the canvas.
-// 	var ctx = canvas.getContext("2d")
-
-// 	// Draw the div element's contents to the canvas.
-// 	ctx.drawImage(div, 0, 0)
-
-// 	// Get the canvas's image data as a base64 string.
-// 	var imageData = canvas.toDataURL("image/png")
-
-// 	// Save the image data to a file.
-// 	var fileName = "image.png"
-// 	var file = new File(imageData, fileName)
-// 	file.save()
-// }
 function onFocusTitle(data) {
 	setTimeout(() => {
 		data.target.select()
 	}, 300)
 }
 
-async function generateNews() {
-	// const popupWindow = await openInNewWindow()
-	// const newsContent = popupWindow.document.getElementById("image-to-generate")
-
+async function generateNews(filename) {
 	const newsContent = document.getElementById("image-to-generate")
 	const container = document.getElementById("container")
 	container.style.opacity = 0
 	newsContent.style.scale = 1
 
-	setTimeout(() => {
-		processImage(newsContent)
-		container.style.opacity = 1
-		updateImageContainerSize()
-	}, 800)
+	processImage(newsContent, filename)
+	container.style.opacity = 1
+	updateImageContainerSize()
 }
 
-function processImage(newsContent) {
+function processImage(newsContent, filename) {
 	html2canvas(newsContent, {
 		scrollX: -1700,
 		scrollY: -window.scrollY,
@@ -62,9 +30,8 @@ function processImage(newsContent) {
 		var image = canvas
 			.toDataURL("image/png")
 			.replace("image/png", "image/octet-stream")
-
-		shareImage(image)
-		// downloadImage(image)
+		if (filename) downloadImage(image, filename)
+		else shareImage(image)
 	})
 }
 
@@ -91,112 +58,20 @@ function shareImage(imageData) {
 	}
 }
 
-async function downloadImage(image) {
+async function downloadImage(image, filename) {
 	var link = document.createElement("a")
 	link.href = image
-	link.download = "my-image.png"
+	link.download = `${filename}.png`
 	link.click()
 }
 
-async function openInNewWindow() {
-	const htmlContent = `
-	<head>
-	
-	<style>
-	.image-container {
-		position: relative;
-		background-image: url(src/assets/images/theme-1-template.png);
-		width: 1700px;
-		background-size: contain;
-		aspect-ratio: 16/9;
-	}
-
-	.inner-image {
-		position: absolute;
-
-		height: 645px;
-		top: 140px;
-		left: 290px;
-		aspect-ratio: 16/9;
-	}
-
-	#top-banner {
-		position: absolute;
-		color: white;
-		top: 35px;
-		left: 280px;
-		font-size: 36px;
-		font-weight: 700;
-		white-space: nowrap;
-	}
-
-	#news-header {
-		position: absolute;
-		top: 780px;
-		left: 380px;
-		font-size: 27px;
-		font-weight: 800;
-		color: black;
-		white-space: nowrap;
-	}
-
-	#bottom-left {
-		position: absolute;
-		color: white;
-		top: 845px;
-		left: 380px;
-		font-size: 17px;
-		font-weight: 500;
-	}
-
-	#bottom-right {
-		position: absolute;
-		color: white;
-		top: 835px;
-		left: 1250px;
-		font-size: 17px;
-		font-weight: 500;
-	}
-
-	button:active {
-		transform: translateY(1px);
-	}
-	button:disabled:active {
-		transform: translate(0px);
-	}
-</style>
-	</head>
-	<body>
-	<div id="image-to-generate" style="position: relative;">
-		<div class="inner-image" id>
-			<img
-				src="src/assets/images/another.jpg"
-				alt
-				style="
-					height: 100%;
-					width: 100%;
-					object-fit: cover;
-					object-position: center;
-				"
-			/>
-		</div>
-		<div class="image-container"></div>
-		<span id="top-banner" x-text="banner_text"></span>
-		<span id="news-header" x-text="news_title"></span>
-		<!-- <span id="bottom-left" x-text="banner_text"></span> -->
-		<span id="bottom-right" x-text="selected_date"></span>
-	</div>
-
-	</body>
-	`
-	const popupWindow = window.open("", "popupWindow", "width: 1700,height:600")
-
-	popupWindow.document.write(htmlContent)
-
-	return popupWindow
-}
-
 document.addEventListener("DOMContentLoaded", () => {
+	const loader_section = document.getElementById("loader-section")
+	setTimeout(() => {
+		// loader_section.classList.add("fade-out")
+		// console.log("fade out done")
+	}, 1000)
+
 	updateImageContainerSize()
 	let checkCounter = 0
 	let isRemoved = false
@@ -205,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			clearInterval(interval)
 		}
 		isRemoved = checkBanner()
-	}, 500)
+	}, 5)
 })
 
 function updateImageContainerSize() {
@@ -251,4 +126,29 @@ function checkBanner() {
 		return true
 	}
 	return false
+}
+listenBackgroundImageLoad()
+function listenBackgroundImageLoad() {
+	const imageContainer = document.querySelector(".image-container")
+
+	// Create a new Image object
+	const backgroundImage = new Image()
+
+	backgroundImage.src = "src/assets/images/theme-1-template.png"
+
+	backgroundImage.addEventListener("load", function () {
+		console.log("Background image loaded successfully")
+		const loader_section = document.getElementById("loader-section")
+
+		setTimeout(() => {
+			loader_section.classList.add("fade-out")
+		}, 1000)
+	})
+
+	// Add an event listener for the 'error' event in case the image fails to load
+	backgroundImage.addEventListener("error", function () {
+		console.error("Error loading background image")
+	})
+
+	// Append the Image object to the .image-container to trigger the loading process
 }

@@ -15,140 +15,151 @@
 			defer
 		></script>
 	</head>
+
 	<body
 		x-data="{
 		banner_text: 'MIZORAM CHHUNG',
 		news_title: 'NEWS HEADER',
 		selected_date: convertDate(new Date()),
-		selected_image: null
+		selected_image: null,
+		
 	}"
 	>
-		<div
-			style="height: max-content; padding-bottom: 20px; margin: 2vw"
-			class=""
-		>
-			<span style="margin-top: 20px">
-				<input
-					@focus="onFocusTitle"
-					type="text"
-					placeholder="News title"
-					style="padding: 8px; width: 200px"
-					x-model="news_title"
-					class=""
-				/>
-			</span>
-			<span>
-				<select
-					name="banner_text"
-					id="banner_text"
-					x-model="banner_text"
-					class="placeholder-slate-300 text-slate-600 relative bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring"
-					style="padding: 8px; width: 220px; margin-top: 20px"
-				>
-					<ol>
-						<option value="Mizoram Chhung">
-							<span style="padding: 8px !important"> Mizoram Chhung </span>
-						</option>
-						<option value="Tual Pawn">Tual Pawn</option>
-					</ol>
-				</select>
-			</span>
-			<span style="width: 220px">
-				<input
-					@change="onSelectImage"
-					accept="image/*"
-					@focus="onFocusTitle"
-					type="file"
-					placeholder="News title"
-					style="padding: 8px; width: 220px; margin-top: 20px"
-					class=""
-					x-model="selected_image"
-				/>
-			</span>
-
-			<span style="white-space: nowrap">
-				<button
-					style="
-						display: inline;
-						background: rgb(66, 184, 221);
-						border: 3px solid rgb(66, 184, 221);
-						color: white;
-						padding: 3px;
-						border-radius: 8px;
-						filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
-						margin-top: 20px;
-						width: 140px;
-					"
-					@click="generateNews"
-				>
-					Download
-				</button>
-				&nbsp;
-				<button
-					style="
-						display: inline;
-						background: lightseagreen;
-						border: 3px solid lightseagreen;
-						color: white;
-						padding: 3px;
-						border-radius: 8px;
-						filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
-						margin-top: 20px;
-						width: 140px;
-					"
-					@click="generateNews"
-				>
-					Share
-				</button>
-			</span>
-		</div>
-
-		<div
-			style="max-height: min(55vh, 55vw); overflow: hidden; padding-left: 2vw"
-			id="container"
-		>
-			<div
-				id="image-to-generate"
-				style="position: relative; display: none; transform-origin: top left"
-			>
-				<div
-					class="inner-image"
-					style="overflow: hidden; text-align: center; background: #2c2c2c"
-				>
-					<img
-						id="inner-image"
-						height="645"
-						src="src/assets/images/scenary.webp"
-						alt
-						style="object-fit: cover; object-position: center"
-					/>
-				</div>
-				<div class="image-container"></div>
-				<span id="top-banner" x-text="banner_text"></span>
-				<span id="news-header" x-text="news_title"></span>
-				<!-- <span id="bottom-left" x-text="banner_text"></span> -->
-				<span id="bottom-right" x-text="selected_date"></span>
-			</div>
-		</div>
-		<div
+		<section
+			id="loader-section"
 			style="
-				margin-top: 50px;
-				display: inline-block;
-				background-color: lightseagreen;
-				padding: 2vw;
+				top: 0;
+				position: absolute;
+				background: #566f84;
+				height: 100vh;
+				width: 100vw;
+				z-index: 100;
+				display: flex;
+				justify-content: center;
+				align-items: center;
 			"
 		>
-			<h2 style="color: orange">
-				<div>
-					<span
-						style="font-weight: 900 m !important; font-size: 27px; color: red"
-						>DISCLAIMER:</span
+			<img src="src/assets/images/earth.svg" alt="" />
+		</section>
+		<section id="main-section">
+			<div
+				style="height: max-content; padding-bottom: 20px; margin: 2vw"
+				class=""
+			>
+				<span style="margin-top: 20px">
+					<input
+						@focus="onFocusTitle"
+						type="text"
+						placeholder="News title"
+						style="padding: 8px; width: 200px"
+						x-model="news_title"
+						class=""
+					/>
+				</span>
+				<span>
+					<select
+						name="banner_text"
+						id="banner_text"
+						x-model="banner_text"
+						class="placeholder-slate-300 text-slate-600 relative bg-white rounded text-base border-0 shadow outline-none focus:outline-none focus:ring"
+						style="padding: 8px; width: 220px; margin-top: 20px"
 					>
+						<ol>
+							<option value="Mizoram Chhung">
+								<span style="padding: 8px !important"> Mizoram Chhung </span>
+							</option>
+							<option value="Tual Pawn">Tual Pawn</option>
+						</ol>
+					</select>
+				</span>
+				<span style="width: 220px">
+					<input
+						@change="onSelectImage"
+						accept="image/*"
+						@focus="onFocusTitle"
+						type="file"
+						placeholder="News title"
+						style="padding: 8px; width: 220px; margin-top: 20px"
+						class=""
+						x-model="selected_image"
+					/>
+				</span>
+
+				<span style="white-space: nowrap">
+					<button
+						style="
+							display: inline;
+							background: rgb(66, 184, 221);
+							border: 3px solid rgb(66, 184, 221);
+							color: white;
+							padding: 3px;
+							border-radius: 8px;
+							filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
+							margin-top: 20px;
+							width: 140px;
+						"
+						@click="generateNews(news_title)"
+					>
+						Download
+					</button>
+					&nbsp;
+					<button
+						style="
+							display: inline;
+							background: lightseagreen;
+							border: 3px solid lightseagreen;
+							color: white;
+							padding: 3px;
+							border-radius: 8px;
+							filter: drop-shadow(3px 5px 5px rgba(0, 0, 0, 0.45));
+							margin-top: 20px;
+							width: 140px;
+						"
+						@click="generateNews(false)"
+					>
+						Share
+					</button>
+				</span>
+			</div>
+
+			<div style="max-height: min(55vh, 55vw); overflow: hidden" id="container">
+				<div
+					id="image-to-generate"
+					style="position: relative; display: none; transform-origin: top left"
+				>
+					<div
+						class="inner-image"
+						style="overflow: hidden; text-align: center; background: #2c2c2c"
+					>
+						<img
+							id="inner-image"
+							height="645"
+							src="src/assets/images/scenary.webp"
+							alt
+							style="object-fit: cover; object-position: center"
+						/>
+					</div>
+					<div class="image-container"></div>
+					<span id="top-banner" x-text="banner_text"></span>
+					<span id="news-header" x-text="news_title"></span>
+					<!-- <span id="bottom-left" x-text="banner_text"></span> -->
+					<span id="bottom-right" x-text="selected_date"></span>
 				</div>
-				Do it for fun, do not hurt others' feelings
-			</h2>
-		</div>
+			</div>
+			<div
+				style="margin-top: 50px; background-color: lightseagreen; padding: 2vw"
+			>
+				<h2 style="color: orange; text-align: center">
+					<div>
+						<span
+							style="font-weight: 900 m !important; font-size: 27px; color: red"
+							>DISCLAIMER:</span
+						>
+					</div>
+					Do it for fun, do not hurt others' feelings
+				</h2>
+			</div>
+		</section>
 	</body>
 	<script src="src/assets/scripts/index.js"></script>
-	<script src="/main.js" type="module"></script>
 </html>

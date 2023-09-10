@@ -1,12 +1,19 @@
+body {
+	background-color: #566f84;
+	margin: 0;
+}
+.fade-out {
+	visibility: hidden;
+	opacity: 0;
+
+	transition: visibility 0s 1s, opacity 1s linear;
+}
 .image-container {
 	position: relative;
 	background-image: url(src/assets/images/theme-1-template.png);
 	width: 1700px;
 	background-size: contain;
 	aspect-ratio: 16/9;
-
-	// height: 1080px;
-	// width: 1920px;
 }
 
 .inner-image {
