@@ -8,72 +8,62 @@ function onFocusTitle(data) {
 	}, 300)
 }
 
-async function generateNews(filename) {
+async function generateNews(filename, download) {
 	const newsContent = document.getElementById("image-to-generate")
-	const container = document.getElementById("container")
-	container.style.opacity = 0
-	newsContent.style.scale = 1
-
-	processImage(newsContent, filename)
-	container.style.opacity = 1
-	updateImageContainerSize()
+	if (download) processImage(newsContent, filename)
+	else {
+		shareImage(newsContent, filename)
+	}
 }
 
-function processImage(newsContent, filename) {
+async function shareImage(newsContent, filename) {
+	const container = document.getElementById("scrollable-container")
+
 	html2canvas(newsContent, {
-		scrollY: -window.scrollX,
+		scrollX: 0,
 		scrollY: -window.scrollY,
-		windowWidth: 1920,
+		windowWidth: 600,
 		windowHeight: document.documentElement.offsetHeight,
 	}).then(function (canvas) {
-		// var img = canvas.toDataURL()
-		var image = canvas.toDataURL("image/png")
+		canvas.toBlob(async (blob) => {
+			// Even if you want to share just one file you need to
+			// send them as an array of files.
+			const files = [new File([blob], `${filename}.png`, {type: blob.type})]
+			const shareData = {
+				url: window.location.href
+				text: filename,
+				title: "Chanchin thar lem2 lo siam ve rawh le!",
 
-		if (filename) {
-			image.replace("image/png", "image/octet-stream")
-			downloadImage(image, filename)
-		} else shareImage(image)
+				files,
+			}
+			if (navigator.canShare(shareData)) {
+				try {
+					await navigator.share(shareData)
+				} catch (err) {
+					if (err.name !== "AbortError") {
+						console.error(err.name, err.message)
+					}
+				}
+			} else {
+				console.warn("Sharing not supported", shareData)
+			}
+		})
 	})
 }
 
-function shareImage(imageData) {
-	// shareOrDownload(blob, 'cat.png', 'Cat in the snow', 'Getting cold feet…');
-	// blob, fileName, title, text
+function processImage(newsContent, filename) {
+	const container = document.getElementById("scrollable-container")
 
-	const data = {
-		files: [
-			new File([imageData], "fake-news.png", {
-				type: "image/png",
-			}),
-		],
-		title: "NEWS",
-		text: "",
-	}
-	// Check if the Web Share API is available in the browser
-	if (navigator.share) {
-		// Create an object containing the image data and type
-		// const shareData = {
-		// 	files: [
-		// 		new File([imageData], "news_image.png", {
-		// 			// type: "blob",
-		// 			type: "image/png",
-		// 		}),
-		// 	],
-		// }
+	html2canvas(newsContent, {
+		scrollX: 0,
+		scrollY: -window.scrollY,
+		windowWidth: 600,
+		windowHeight: document.documentElement.offsetHeight,
+	}).then(function (canvas) {
+		var image = canvas.toDataURL("image/png")
 
-		// Use the Web Share API to share the image
-		navigator
-			.share(data)
-			.then(() => {
-				console.log("Image shared successfully")
-			})
-			.catch((error) => {
-				console.error("Error sharing image:", error)
-			})
-	} else {
-		console.log("Web Share API is not available in this browser.")
-		// You can provide a fallback method or message here for browsers that do not support Web Share API.
-	}
+		downloadImage(image, filename)
+	})
 }
 
 async function downloadImage(image, filename) {
@@ -96,7 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
 })
 
 function updateImageContainerSize() {
-	const testElement = document.getElementById("image-to-generate")
+	// const testElement = document.getElementById("image-to-generate")
+	// testElement.style.display = "inline-block"
+	return
 	const screenWidth = screen.width
 
 	let mainWidth = window.innerWidth

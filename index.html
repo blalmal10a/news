@@ -32,6 +32,7 @@
 				position: absolute;
 				background: #566f84;
 				height: 100vh;
+
 				width: 100vw;
 				z-index: 100;
 				display: flex;
@@ -39,9 +40,13 @@
 				align-items: center;
 			"
 		>
-			<img src="src/assets/images/earth.svg" alt="" />
+			<img
+				style="margin-bottom: 20vh"
+				src="src/assets/images/earth.svg"
+				alt=""
+			/>
 		</section>
-		<section class="" id="main-section">
+		<section class="" id="main-section" style="overflow: hidden">
 			<div
 				style="
 					height: max-content;
@@ -103,7 +108,7 @@
 							margin-top: 20px;
 							width: 140px;
 						"
-						@click="generateNews(news_title)"
+						@click="generateNews(news_title, true)"
 					>
 						Download
 					</button>
@@ -120,44 +125,45 @@
 							margin-top: 20px;
 							width: 140px;
 						"
-						@click="generateNews(false)"
+						@click="generateNews(news_title)"
 					>
 						Share
 					</button>
 				</span>
 			</div>
-
-			<div
-				id="container"
-				style="
-					max-height: min(55vh, 55vw);
-					overflow: hidden;
-					padding-left: min(12vw, 45vh);
-				"
-			>
+			<div style="width: 100vw; display: flex; justify-content: center">
 				<div
-					id="image-to-generate"
-					style="position: relative; display: none; transform-origin: top left"
+					id="scrollable-container"
+					style="
+						overflow: auto;
+						max-width: calc(100vw - 40px);
+						border-radius: 8px;
+						border: 8px solid #efefef;
+					"
 				>
-					<div
-						class="inner-image"
-						style="overflow: hidden; text-align: center; background: #2c2c2c"
-					>
-						<img
-							id="inner-image"
-							height="645"
-							src="src/assets/images/scenary.webp"
-							alt
-							style="object-fit: cover; object-position: center"
-						/>
+					<div id="image-to-generate" style="position: relative">
+						<div
+							class="inner-image"
+							style="overflow: hidden; text-align: center; background: #2c2c2c"
+						>
+							<img
+								id="inner-image"
+								height="100%"
+								width="100%"
+								src="src/assets/images/scenary.webp"
+								alt
+								style="object-fit: cover; object-position: center"
+							/>
+						</div>
+						<div class="image-container"></div>
+						<span id="top-banner" x-text="banner_text"></span>
+						<span id="news-header" x-text="news_title"></span>
+						<!-- <span id="bottom-left" x-text="banner_text"></span> -->
+						<span id="bottom-right" x-text="selected_date"></span>
 					</div>
-					<div class="image-container"></div>
-					<span id="top-banner" x-text="banner_text"></span>
-					<span id="news-header" x-text="news_title"></span>
-					<!-- <span id="bottom-left" x-text="banner_text"></span> -->
-					<span id="bottom-right" x-text="selected_date"></span>
 				</div>
 			</div>
+
 			<div
 				style="margin-top: 50px; background-color: lightseagreen; padding: 2vw"
 			>

@@ -5,41 +5,39 @@ body {
 .fade-out {
 	visibility: hidden;
 	opacity: 0;
-
 	transition: visibility 0s 1s, opacity 1s linear;
 }
 .image-container {
 	position: relative;
-	background-image: url(src/assets/images/theme-1-template.png);
-	width: 1700px;
-	background-size: contain;
+	background-image: url(src/assets/images/theme1-500.png);
+	width: 500px;
+	/* background-size: contain; */
 	aspect-ratio: 16/9;
 }
 
 .inner-image {
 	position: absolute;
-
-	height: 645px;
-	top: 140px;
-	left: 290px;
+	width: 325px;
+	top: 40px;
+	left: 90px;
 	aspect-ratio: 16/9;
 }
 
 #top-banner {
 	position: absolute;
 	color: white;
-	top: 45px;
-	left: 280px;
-	font-size: 36px;
+	top: 10px;
+	left: 85px;
+	font-size: 14px;
 	font-weight: 700;
 	white-space: nowrap;
 }
 
 #news-header {
 	position: absolute;
-	top: 790px;
-	left: 380px;
-	font-size: 27px;
+	top: 232px;
+	left: 110px;
+	font-size: 12px;
 	font-weight: 800;
 	color: black;
 	white-space: nowrap;
@@ -57,9 +55,9 @@ body {
 #bottom-right {
 	position: absolute;
 	color: white;
-	top: 845px;
-	left: 1250px;
-	font-size: 17px;
+	top: 237px;
+	left: 412px;
+	font-size: 9px;
 	font-weight: 500;
 }
 
