@@ -30,10 +30,12 @@ async function shareImage(newsContent, filename) {
 			// send them as an array of files.
 			const files = [new File([blob], `${filename}.png`, {type: blob.type})]
 			const shareData = {
-				url: window.location.href
-				text: filename,
-				title: "Chanchin thar lem2 lo siam ve rawh le!",
+				url: window.location.href,
+				text: `
+Chanchin thar lem2 lo siam ve rawh le!`,
+				title: `${filename}
 
+`,
 				files,
 			}
 			if (navigator.canShare(shareData)) {
@@ -138,7 +140,7 @@ function listenBackgroundImageLoad() {
 	// Create a new Image object
 	const backgroundImage = new Image()
 
-	backgroundImage.src = "src/assets/images/theme-1-template.png"
+	backgroundImage.src = "src/assets/images/theme1-500.png"
 
 	backgroundImage.addEventListener("load", function () {
 		console.log("Background image loaded successfully")
